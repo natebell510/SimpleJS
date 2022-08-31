@@ -26,15 +26,27 @@ console.log(eligible);
 //coding challenge
 //tip calculator
 // output bill, tip, total
-function calculateTip(bill){
+const billInput = document.getElementById("bill");
+
+const btn = document.getElementById("calc-el");
+const resultEl = document.getElementById("result-el");
+
+function calc(){
+    const bill = parseInt(billInput.value);
     const tip = bill >= 50 && bill <= 300 ? 0.15 : 0.2;
     const totalAmount = bill + (bill * tip);
-    console.log(`The bill was ${bill} and tip was ${tip} and total amount paid was ${totalAmount}`);
+    resultEl.innerHTML = `<div>Your total is ${totalAmount}$!</div>`;
 }
-calculateTip(275); //316.25
-calculateTip(40); //48
-calculateTip(430); //516
-const inputBill = document.getElementById("bill-el")
+
+btn.addEventListener("click", function (){
+    const bill = parseInt(billInput.value);
+    const tip = bill >= 50 && bill <= 300 ? 0.15 : 0.2;
+    const totalAmount = bill + (bill * tip);
+    resultEl.innerHTML = `<div>Your total is ${totalAmount}$!</div>`;
+});
+console.log(billInput.innerText)
+
+
 
 
 
