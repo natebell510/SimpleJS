@@ -276,8 +276,62 @@ for (let exercise = 1; exercise < 4; exercise ++){
 }
 
 
+let dice = Math.trunc(Math.random()*6);
+console.log(dice)
+while(dice !== 6){
+    console.log(`You rolled ${dice}`);
+    dice = Math.trunc(Math.random()*6)+1;
+    if(dice === 6){
+        console.log(`Loop is about to end!`)
+    }
+}
+//Final coding challenge:
 
-// time stamp: 4:10:00 on 2
+//tip calculator with loops
+const  tipCalculator = (bill)=>{
+    return bill > 50 && bill < 300 ? bill * 0.15 : bill * 0.2;
+}
+
+//1. array with 10 test values
+const billsMc = [22,295,176,440,37,105,10,1100,86,52];
+//2. empty arrays for tips and totals
+const tipsMc = [];
+const totalMc = [];
+// use calcTip function to get total = bill + tip for every bill
+for (let tip = 0; tip < billsMc.length; tip++){
+    tipsMc.push(tipCalculator(billsMc[tip]));
+}
+const finalResult = (bills, tips) =>{
+    const finalValue = [];
+    if(bills.length === tips.length){
+        for (let i = 0; i < bills.length; i++){
+            finalValue.push(bills[i]+tips[i]);
+        }
+    }else{
+        console.log('Different size of arrays!');
+    }
+    return finalValue;
+}
+console.log(finalResult(billsMc,tipsMc));
+
+
+
+//calcAverage
+const calcAverage = (array)=>{
+    let total = 0;
+    for (let i = 0; i < array.length; i++){
+        total += array[i];
+    }
+    return total/array.length;
+}
+console.log(`Average bill is ${calcAverage(billsMc)}$`);
+console.log(`Average total check with tips is ${calcAverage(finalResult(billsMc,tipsMc))}$`);
+
+
+
+
+
+// time stamp: 4:30:00 on 2
 
 
 
