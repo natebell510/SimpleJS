@@ -96,3 +96,5 @@ btnHold.addEventListener('click', function () {
 });
 
 btnNew.addEventListener('click', init);
+
+// video 3 4:50:00
