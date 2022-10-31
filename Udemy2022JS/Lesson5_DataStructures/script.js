@@ -14,11 +14,12 @@ const restaurant = {
     order: function (starterIndex, mainIndex) {
         return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
     },
-    orderDelivery: function (starterIndex, mainIndex, time, address){
-        console.log(`Order received!${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be 
-        delivered to ${address} around ${time}`);
-    }
-    ,
+    orderDelivery: function ({starterIndex = 1, mainIndex = 0, time = '22.00', address}) {
+        console.log(`Order received!${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} around ${time}`);
+    },
+    orderPasta: function (ing1, ing2, ing3) {
+        console.log(`Here is your pasta with ${ing1}, ${ing2}, ${ing3}`);
+    },
 
     openingHours: {
         thu: {
@@ -35,13 +36,84 @@ const restaurant = {
         },
     },
 };
+const arr2 = [1, 2, ...[3, 4]];
+console.log(arr2); //spread operator because on right side of assign operator '='
+const [f, g, ...others] = [1, 2, 3, 4, 5];
+console.log(f, g, others);
+const [pizza, , risotto, ...otherFood] = [...restaurant.mainMenu, ...restaurant.starterMenu];
+console.log(pizza, risotto, otherFood);
+//Objects destructuring
+const {sat, ...weekdays} = restaurant.openingHours;
+console.log(weekdays);
 
+
+console.log('--------------------------------');
+//Functions rest pattern , rest parameters - takes multiple and packs into one array
+const add = function (...numbers) {
+    let sum = 0;
+    for (let x = 0; x < numbers.length; x++) {
+        sum += numbers[x];
+    }
+
+    console.log(sum);
+};
+const h = [23, 5, 7];
+add(...h);
+
+console.log('--------------------------------');//spread operator to access individual elements
+const ingredients = ["Let\'s make pasta, ingredient 1?", "Ingredient 2", "Ingredient 3"];
+restaurant.orderPasta(ingredients[0], ingredients[1], ingredients[2]);
+restaurant.orderPasta(...ingredients);
+console.log('--------------------------------');
+//Objects
+const newRestaurant = {...restaurant, founder: "Guiseppe "};
+console.log(newRestaurant);
+const restaurantCopy = {...restaurant};
+restaurantCopy.name = 'Ristorante Roma';
+console.log(restaurantCopy);
+
+
+console.log('--------------------------------');
 restaurant.orderDelivery({
-    time : '22.40',
+    time: '22.40',
     address: 'Cranfield Link',
-    mainIndex : 2,
-    starterIndex : 2,
+    mainIndex: 2,
+    starterIndex: 2,
 });
+console.log('--------------------------------');
+restaurant.orderDelivery({
+    address: '111 Baybrook Drive',
+    starterIndex: 1,
+});
+console.log('--------------------------------');
+
+
+//
+const arr1 = [7, 9, 0];
+const badNewArr = [1, 2, arr1[0], arr1[1], arr1[2]];
+console.log(badNewArr);
+const newArr1 = [1, 2, ...arr1]; //spread operator
+console.log(newArr1); //[ 1, 2, 7, 9, 0 ]
+
+console.log(...newArr1);//1 2 7 9 0
+
+const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+console.log(newMenu); //[ 'Pizza', 'Pasta', 'Risotto', 'Gnocci' ]
+console.log('--------------------------------');
+//Copy array
+const mainMenuCopy = [...restaurant.mainMenu];
+//Join two arrays or more
+const menuCopy = [...restaurant.mainMenu, ...restaurant.starterMenu];
+console.log(...menuCopy);
+console.log('--------------------------------');
+//Iterable - array, maps, Strings, sets but NOT objects
+const str = 'Jonas';
+const letters = [...str, , 'S.'];
+console.log(letters);
+console.log(...str);
+
+
+console.log('--------------------------------');
 
 //Object destructuring
 const {name, openingHours, categories} = restaurant;
@@ -53,23 +125,22 @@ const {
     categories: tags
 } = restaurant;
 console.log(restaurantName, hours, tags);
-const {menu = [], starterMenu : starters  = []} = restaurant;
-console.log(menu,starters);
+const {menu = [], starterMenu: starters = []} = restaurant;
+console.log(menu, starters);
 
 console.log('--------------------------------');
 let l = 111;
 let m = 999;
 const obj = {l: 23, m: 7, n: 14};
 ({l, m} = obj);
-console.log(l,m);
+console.log(l, m);
 console.log('--------------------------------');
 //nested objects
 const {
     fri:
-        {open: o,close: cl}
-} =  openingHours;
-console.log(o,cl);
-
+        {open: o, close: cl}
+} = openingHours;
+console.log(o, cl);
 
 
 console.log('--------------------------------');
