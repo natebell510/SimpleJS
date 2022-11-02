@@ -20,7 +20,7 @@ const restaurant = {
     orderPasta: function (ing1, ing2, ing3) {
         console.log(`Here is your pasta with ${ing1}, ${ing2}, ${ing3}`);
     },
-    orderPizza : function (mainIngredient, ...otherIngredients) {
+    orderPizza: function (mainIngredient, ...otherIngredients) {
         console.log(mainIngredient);
         console.log(otherIngredients);
     },
@@ -40,11 +40,60 @@ const restaurant = {
         },
     },
 };
-if(restaurant.orderPizza){
-    restaurant.orderPizza('onions','spinach');
+console.log('--------------------------------');
+
+console.log('--------------------------------');
+const menu1 = [...restaurant.starterMenu, ...restaurant.mainMenu];
+for (const item of menu1){
+    console.log(item);
+};
+for (const [i,el] of menu1.entries()){
+    console.log(`${i + 1}: ${el}`);
 }
 console.log('--------------------------------');
-restaurant.orderPizza && restaurant.orderPizza('tomato','potato');
+//Logical assigning operators
+const rest1 = {
+    name: 'capri',
+    numGuest: 0
+};
+const rest2 = {
+    name: 'la piazza',
+    owner: 'Giovanni'
+};
+//rest1.numGuest = rest1.numGuest || 10;
+//rest2.numGuest = rest2.numGuest || 10;
+//
+//rest1.numGuest ||= 10;
+//rest2.numGuest ||= 10;
+// nullish assignment operator
+rest1.numGuest ??= 10;
+rest2.numGuest ??= 10;
+
+rest2.owner = rest2.owner && '<ANON>';
+rest1.owner = rest2.owner && '<ANON>';
+
+rest1.owner &&= 'ANON';
+rest2.owner &&= 'ANON';
+
+console.log(rest1);
+console.log(rest2);
+
+
+console.log('--------------------------------');
+//nullish coalescing operator
+restaurant.numGuests = 0;
+const guest3 = restaurant.numGuests || 10;
+console.log(guest3);//10
+//Nullish values and undefined
+const guessCorrect = restaurant.numGuests ?? 10;
+console.log(guessCorrect);//0
+
+console.log('--------------------------------');
+if (restaurant.orderPizza) {
+    restaurant.orderPizza('onions', 'spinach');
+}
+console.log('--------------------------------');
+restaurant.orderPizza && restaurant.orderPizza('tomato', 'potato');
 
 
 console.log('--------------------------------');
@@ -53,13 +102,13 @@ console.log(guest1);
 const guest2 = restaurant.numGuests || 10;
 console.log(guest2);
 console.log('--------------------------------');
-if(restaurant.orderPizza()){
-    restaurant.orderPizza('onions','spinach');
+if (restaurant.orderPizza()) {
+    restaurant.orderPizza('onions', 'spinach');
 }
 
 
 console.log('--------------------------------');
-restaurant.orderPizza('mushrooms', 'onion','olives','spinach');
+restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
 restaurant.orderPizza('mushrooms'); //mushrooms,[]
 
 console.log('--------------------------------');
