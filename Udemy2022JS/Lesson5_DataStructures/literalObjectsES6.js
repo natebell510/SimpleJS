@@ -41,6 +41,27 @@ const restaurant = {
     //ES6 object literals
     hours
     };
+console.log('--------------------------------');
+const properties = Object.keys(hours);
+console.log(properties);//[ 'thu', 'fri', 'sat' ]
+let openStr = `we are open on ${properties.length} days:`;
+for (const day of Object.keys(hours)){
+    openStr+=`${day} `;
+};
+console.log(openStr);
+//property values
+const values = Object.values(hours);
+console.log(values);
+//Entire object
+const entries = Object.entries(hours);
+console.log(entries);
+//[key,value]
+for (const [key, {open, close}] of entries){
+    console.log(`On ${key} we open at ${open} and close at ${close}.`)
+};
+
+
+console.log('--------------------------------');
 
 if(restaurant.openingHours && restaurant.hours.mon)console.log(restaurant.openingHours.hours.mon);
 
