@@ -17,6 +17,9 @@ const restaurant = {
         console.log(`Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be
         delivered to ${address} at ${time}`);
     },
+    orderPasta : function(ing1, ing2, ing3){
+     console.log(`Here is your delicious pasta with ${ing1}, ${ing2},${ing3} `);
+    },
 
     openingHours: {
         thu: {
@@ -33,6 +36,19 @@ const restaurant = {
         },
     },
 };
+//Objects
+const newRestaurant1 = {foundedIn: 1992,...restaurant, founder: 'Georgio'};
+console.log(newRestaurant1);
+
+const restaurantCopy = {...restaurant};
+restaurantCopy.name = 'Risto Roman Italiano';
+console.log(restaurantCopy.name);
+console.log(restaurant.name);
+console.log('--------------------------');
+
+
+
+console.log('--------------------------');
 const newMenu = [...restaurant.mainMenu, 'Potato Motatro'];
 console.log(newMenu);
 
