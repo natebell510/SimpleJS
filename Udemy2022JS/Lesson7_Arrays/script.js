@@ -97,31 +97,31 @@ const displayMovements = function (movements, sort = false) {
 };
 displayMovements(account1.movements);
 
-const calcDisplayBalance = function (movements) {
-    const balance = movements.reduce((acc, mov) => acc + mov, 0);
-    labelBalance.textContent = `${balance}€`;
+const calcDisplayBalance = function (account) {
+    account.balance = account.movements.reduce((acc, mov) => acc + mov, 0);
+    labelBalance.textContent = `${account.balance}€`;
 };
-calcDisplayBalance(account1.movements);
 
 
 
-const calcDisplaySummary = function (movements) {
+
+const calcDisplaySummary = function (account) {
     //in
-    const incomes = movements.filter(move => move > 0).reduce((acc, move)=> acc + move, 0);
+    const incomes = account.movements.filter(move => move > 0).reduce((acc, move)=> acc + move, 0);
     labelSumIn.textContent = `${incomes}€`;
     //out
-    const out = movements.filter(move => move < 0).reduce((acc, move)=> acc + move, 0);
+    const out = account.movements.filter(move => move < 0).reduce((acc, move)=> acc + move, 0);
     labelSumOut.textContent = `${Math.abs(out)}€`; //remove minus sign
     //const %
-    const interest = movements.filter(move => move > 0)
-        .map(deposit => (deposit * 1.2)/100)
+    const interest = account.movements.filter(move => move > 0)
+        .map(deposit => (deposit * account.interestRate)/100)
         .filter((int, i,arr) => {
             return int >= 1;
         })
         .reduce((acc, interest)=> acc + interest,0);
-    labelSumInterest.textContent = `${interest}€`;
+    labelSumInterest.textContent = `${Math.round(interest)}€`;
 }
-calcDisplaySummary(account1.movements);
+
 //interest is 1.2%
 
 //do not overuse chaining, because can cause performance issues, compress functionality
@@ -130,9 +130,121 @@ calcDisplaySummary(account1.movements);
 //FIND method
 //returns first element that satisfies the condition
 const firstEl = movements.find(move => move < 0);
-console.log(firstEl);
 
-console.log( accounts.find(acc => acc.owner = 'Jonas Schmedtmann'));
+const createUsernames = function (accs) {
+    accs.forEach(function (acc) {
+        acc.username = acc.owner
+            .toLowerCase()
+            .split(' ')
+            .map(name => name[0])
+            .join('');
+    });
+};
+createUsernames(accounts);
+
+
+
+//adding login, opacity
+const updateUI = function (account){
+    //display movements
+    displayMovements(account.movements);
+    //balance
+    calcDisplayBalance(account);
+    //summary
+    calcDisplaySummary(account);
+}
+
+let currentAccount;
+//event handler
+btnLogin.addEventListener('click',function(e){
+    e.preventDefault();
+    currentAccount = accounts.find( acc => acc.username === inputLoginUsername.value);
+
+    if(currentAccount?.pin === Number(inputLoginPin.value)){
+        //display UI and welcome message
+       labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`;
+       containerApp.style.opacity = 100;
+
+       //clear input fields
+        inputLoginUsername.value = '';
+        inputLoginPin.value = '';
+        inputLoginPin.blur();
+        updateUI(currentAccount);
+    }else{
+        labelWelcome.textContent = 'Wrong credentials!';
+    }
+});
+
+//transfer money from one user to another
+btnTransfer.addEventListener('click', function (e) {
+    //prevent default behavior to reload page
+    e.preventDefault();
+    const amount = Number(inputTransferAmount.value);
+    const receiverAccount = accounts.find(acc => acc.username === inputTransferTo.value);
+    inputTransferAmount.value = inputTransferTo.value = '';
+    if( receiverAccount
+        &&amount > 0
+        && currentAccount.balance >= amount
+        &&receiverAccount?.username !== currentAccount.username){
+        currentAccount.movements.push(-amount);
+        receiverAccount.movements.push(amount);
+
+        //update UI
+        updateUI(currentAccount);
+    }
+
+});
+
+btnLoan.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const amount = Number(inputLoanAmount.value);
+
+    if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+        // Add movement
+        currentAccount.movements.push(amount);
+
+        // Update UI
+        updateUI(currentAccount);
+    }
+    inputLoanAmount.value = '';
+});
+
+//findIndex method //close account
+btnClose.addEventListener('click', function (e) {
+    e.preventDefault();
+    if(inputCloseUsername.value === currentAccount.username && Number(inputClosePin.value) === currentAccount.pin){
+        const index = accounts.findIndex(acc => acc.username === currentAccount.username);
+        //delete account
+        accounts.splice(index,1);
+        //hide UI
+        containerApp.style.opacity = 0;
+
+
+    }
+    //clear fields
+    inputCloseUsername.value = inputClosePin.value = '';
+});
+
+//
+//console.log(movements.includes(-200)); //used for equality
+
+//some returns boolean, CONDITION
+//const anyDeposits = movements.some(move => move > 5000);
+//console.log(anyDeposits);
+//check if every transaction is deposit
+//console.log(account4.movements.every(move => move > 0));
+
+
+//separate callback
+const deposit = mov => mov > 0;
+console.log(movements.some(deposit));
+console.log(movements.filter(deposit));
+//Do not Repeat Yourself
+
+
+
+
 
 
 
