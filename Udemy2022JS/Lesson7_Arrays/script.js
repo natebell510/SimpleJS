@@ -253,6 +253,34 @@ labelBalance.addEventListener('click', function () {
     //console.log(movementsUI);
 });
 
+//CODING
+//1
+const bankDepositSum = accounts.flatMap(acc => acc.movements)
+    .filter( move => move > 0)
+    .reduce((sum, cur) => sum + cur,0);
+//2 how many 1000 deposits
+const num1000deposits = accounts.flatMap(acc => acc.movements)
+    .reduce((count, cur) => cur >= 1000 ? ++count : count, 0);
+
+//3 return explicitly
+const {deposits, withdrawal} = accounts.flatMap(acc => acc.movements)
+    .reduce((sums, cur) => {
+        //cur > 0 ? sums.deposits += cur : sums.withdrawal += cur;
+        sums[cur > 0 ?'deposits':'withdrawal'] += cur;
+        return sums;
+
+    }, {deposits : 0, withdrawal : 0});
+
+//4 convert any String to tile case
+const convertTitleCase = function (title) {
+    const capitalize = str => str[0].toUpperCase() + str.slice(1);
+    const exceptions = ['in','a','and','an','the','but','or','with'];
+    const titleCase = title.toLowerCase()
+        .split(' ')
+        .map(word => !exceptions.includes(word) ? capitalize(word) : word)
+        .join(' ');
+
+};
 
 
 
