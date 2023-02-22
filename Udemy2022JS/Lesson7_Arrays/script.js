@@ -226,6 +226,37 @@ btnClose.addEventListener('click', function (e) {
     inputCloseUsername.value = inputClosePin.value = '';
 });
 
+//SORT button
+let sorted = false;
+
+btnSort.addEventListener('click', function (e) {
+    e.preventDefault();
+    displayMovements(currentAccount.movements, !sorted);
+    sorted = !sorted;
+});
+//click again it returns to default state which is random
+const y = [1,2,3,4,5,6,7];
+const x = new Array(7);
+x.fill(12,0,4);
+x.fill(9,4,7);
+
+const t = Array.from({length : 7}, () => 166); //[166, 166, 166, 166, 166, 166, 166]
+const z = Array.from({length : 7}, (_, i) => i +1); //[1, 2, 3, 4, 5, 6, 7]
+
+const ran = Math.floor(Math.random() * 100);
+
+
+
+labelBalance.addEventListener('click', function () {
+    const movementsUI = Array.from(document.querySelectorAll('.movements__value')
+        ,el => el.textContent.replace('€',''));
+    //console.log(movementsUI);
+});
+
+
+
+
+
 //
 //console.log(movements.includes(-200)); //used for equality
 
@@ -237,10 +268,52 @@ btnClose.addEventListener('click', function (e) {
 
 
 //separate callback
-const deposit = mov => mov > 0;
-console.log(movements.some(deposit));
-console.log(movements.filter(deposit));
+//const deposit = mov => mov > 0;
+//console.log(movements.some(deposit));
+//console.log(movements.filter(deposit));
 //Do not Repeat Yourself
+
+
+//FLAT and FLATMAP
+
+//const nestedArr = [[1,2,3],[1,2,5],89,10];
+//console.log(nestedArr.flat());//[1, 2, 3, 1, 2, 5, 89, 10]
+
+//const deeperArr = [[1,2,3],[1,2,5],[89,10,[11,12]]];
+//console.log(deeperArr.flat(2));//[1, 2, 3, 1, 2, 5, 89, 10, 11, 12]
+
+//const overAll = accounts.map(acc => acc.movements).flat()
+ //   .reduce((acc, move) => acc + move, 0);
+//console.log(overAll);
+
+//flatMap
+/*
+const overAll = accounts
+    .flatMap(acc => acc.movements)
+    .reduce((acc, move) => acc + move, 0);
+console.log(overAll);
+ */
+
+
+//SORTING of arrays, sort is based on String in JS
+/*
+const owners = ['Jonas', 'Zack','Adam','Ada','Andrew','Martha'];
+console.log(owners.sort());
+console.log(movements.sort((a,b) => {
+    if(a > b){
+        return 1; //switch order
+    }
+    // 1 and -1, ASC && -1 and 1 DESC
+    if(b > a){
+        return -1; //keep order
+    }
+}));//[-650, -400, -130, 70, 200, 450, 1300, 3000]
+ */
+
+
+
+
+
 
 
 
