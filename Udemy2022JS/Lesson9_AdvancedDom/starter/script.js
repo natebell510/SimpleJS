@@ -2,6 +2,9 @@
 
 ///////////////////////////////////////
 // Modal window
+const header = document.querySelector('.header');
+
+
 
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
@@ -32,3 +35,33 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+//DOM, HTML collection
+//console.log(document.documentElement);
+//const allSections = document.querySelectorAll('.section');
+//document.getElementById('section--1');
+//const allButtons = document.getElementsByTagName('button');
+//document.getElementsByClassName('btn');
+
+//creating and inserting elements
+//insertAdjacentHtml
+const message = document.createElement('div');
+message.classList.add('cookie-message');
+//message.textContent = 'We use cookies for improved functionality and analytics.';
+message.innerHTML = 'We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>';
+//header.prepend(message);
+//prepend and append can be used to move elements, element is unique and can be moved once
+header.append(message);
+//header.append(message.cloneNode(true)); // can clone element with children
+//header.before(message);
+//header.after(message);
+
+//delete elements
+document.querySelector('.btn--close-cookie').addEventListener('click', function(){
+  //message.remove();
+  message.parentElement.removeChild(message); //DOM traversing
+});
+
+
+
+
