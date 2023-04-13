@@ -37,32 +37,31 @@ document.addEventListener('keydown', function (e) {
 });
 
 //smooth scrolling
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
-btnScrollTo.addEventListener('click', function (e){
-  const s1coords = section1.getBoundingClientRect();
-  //scrolling
- // window.scrollTo(s1coords.left + window.pageXOffset, s1coords.top + window.pageYOffset);
-  /*
-  window.scrollTo({
-    left : s1coords.left + window.pageXOffset,
-    top : s1coords.top + window.pageYOffset,
-    behavior : 'smooth',
-  });
-   */
-
-  section1.scrollIntoView({
-    behavior : 'smooth'
-  });
-});
-
-const h1 = document.querySelector('h1');
-const alertH1 = function (e) {
-  alert('addEventListener: great! you are reading the heading.');
-  //listen to event just once
-  h1.removeEventListener('mouseenter',alertH1);
-};
-h1.addEventListener('mouseenter', alertH1);
+//const btnScrollTo = document.querySelector('.btn--scroll-to');
+// const section1 = document.querySelector('#section--1');
+// btnScrollTo.addEventListener('click', function (e){
+//   const s1coords = section1.getBoundingClientRect();
+//   //scrolling
+//  // window.scrollTo(s1coords.left + window.pageXOffset, s1coords.top + window.pageYOffset);
+//   /*
+//   window.scrollTo({
+//     left : s1coords.left + window.pageXOffset,
+//     top : s1coords.top + window.pageYOffset,
+//     behavior : 'smooth',
+//   });
+//    */
+//
+//   section1.scrollIntoView({
+//     behavior : 'smooth'
+//   });
+// });
+//const h1 = document.querySelector('h1');
+// const alertH1 = function (e) {
+//   alert('addEventListener: great! you are reading the heading.');
+//   //listen to event just once
+//   h1.removeEventListener('mouseenter',alertH1);
+// };
+// h1.addEventListener('mouseenter', alertH1);
 /*
 h1.addEventListener('mouseenter', function (e) {
   alert('addEventListener: great! you are reading the heading.')
@@ -74,7 +73,27 @@ h1.onmouseenter = function (e) {
 };
  */
 
+//create random color rgb(0,0,0)
+/*
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+const randomColor = () => `rgb(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)})`;
 
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+
+  this.style.backgroundColor = randomColor();
+  //console.log('LINK', e.target, e.currentTarget);
+
+  //stop propagation
+  //e.stopPropagation();
+});
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+});
+document.querySelector('.nav').addEventListener('click', function (e) {
+  this.style.backgroundColor = randomColor();
+});
+
+ */
 
 
 
@@ -139,6 +158,30 @@ logo.classList.contains('');
 logo.className = 'jonnas';
  */
 
+//document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e){
+//   e.preventDefault();
+//   const id = this.getAttribute('href');
+//   document.querySelector(id).scrollIntoView({behavior : "smooth"});
+//   })
+// });
 
+
+//1. add event listener to common parent element
+//2. determine what element originated event
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  //e.target help to see where event (click) happened
+  //console.log(e.target);
+
+  //matching strategy
+  if(e.target.classList.contains('nav__link')){
+    e.preventDefault();
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({behavior : "smooth"});
+  }
+
+});
+console.log(document.querySelector('.nav__links').classList);
 
 
