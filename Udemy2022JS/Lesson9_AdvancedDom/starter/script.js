@@ -5,35 +5,34 @@
 const header = document.querySelector('.header');
 
 
-
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 
 const openModal = function (e) {
-  e.preventDefault();
-  modal.classList.remove('hidden');
-  overlay.classList.remove('hidden');
+    e.preventDefault();
+    modal.classList.remove('hidden');
+    overlay.classList.remove('hidden');
 };
 
 const closeModal = function () {
-  modal.classList.add('hidden');
-  overlay.classList.add('hidden');
+    modal.classList.add('hidden');
+    overlay.classList.add('hidden');
 };
 
 btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
 
 for (let i = 0; i < btnsOpenModal.length; i++)
-  btnsOpenModal[i].addEventListener('click', openModal);
+    btnsOpenModal[i].addEventListener('click', openModal);
 
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
 
 document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-    closeModal();
-  }
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+    }
 });
 
 //smooth scrolling
@@ -94,10 +93,6 @@ document.querySelector('.nav').addEventListener('click', function (e) {
 });
 
  */
-
-
-
-
 
 
 /*
@@ -171,17 +166,64 @@ logo.className = 'jonnas';
 //2. determine what element originated event
 
 document.querySelector('.nav__links').addEventListener('click', function (e) {
-  //e.target help to see where event (click) happened
-  //console.log(e.target);
+    //e.target help to see where event (click) happened
+    //console.log(e.target);
 
-  //matching strategy
-  if(e.target.classList.contains('nav__link')){
-    e.preventDefault();
-    const id = e.target.getAttribute('href');
-    document.querySelector(id).scrollIntoView({behavior : "smooth"});
-  }
+    //matching strategy
+    if (e.target.classList.contains('nav__link')) {
+        e.preventDefault();
+        const id = e.target.getAttribute('href');
+        document.querySelector(id).scrollIntoView({behavior: "smooth"});
+    }
 
 });
-console.log(document.querySelector('.nav__links').classList);
+//event can bubble up because there is parent -> child -> grandchild in html document DOM
+const h1 = document.querySelector('h1');
+//going downwards: child
+//h1.querySelectorAll('.highlight')
+//direct children
+//console.log(h1.childNodes);
+//h1.firstElementChild.style.color = 'white';
+//h1.lastElementChild.style.color = 'red';
 
+//going upwards - choosing parents
+//console.log(h1.parentNode);
+//console.log(h1.parentElement);
+//h1.closest('.header').style.background = 'var(--gradient-secondary)';
+//h1.closest('h1').style.background = 'var(--gradient-secondary)';
+
+//going sideways - sibling and direct siblings
+//console.log(h1.previousElementSibling);
+//console.log(h1.nextElementSibling);
+//h1.nextSibling
+//h1.previousSibling
+/*
+[...h1.parentElement.children].forEach(function (el) {
+  if(el !== h1)el.style.transform = 'scale(0.10)';
+});
+ */
+
+
+//tab components
+//select tabs
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+    const clicked = e.target.closest('.operations__tab');
+    //console.log(clicked);
+    //Guard clause
+    if (!clicked) return;
+    //remove active classes
+    tabs.forEach(t => t.classList.remove('operations__tab--active'));
+    tabsContent.forEach(c => c.classList.remove('operations__content--active'))
+    //Active tab
+    clicked.classList.add('operations__tab--active');
+
+    //Activate content area
+    document.querySelector(`.operations__content--${
+        clicked.dataset.tab}`).classList.add('operations__content--active');
+});
+//2.49.00
 
