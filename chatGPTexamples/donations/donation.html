@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Donate Now</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Donate Now</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="donation-form">
+        <h2>Make a Donation</h2>
+        <form id="payment-form">
+            <div class="form-row">
+                <label for="card-element">
+                    Credit or debit card
+                </label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert"></div>
+            </div>
+            <div class="form-row">
+                <label for="amount">
+                    Donation amount ($)
+                </label>
+                <input id="amount" type="number" min="1" step="1" required>
+            </div>
+            <div class="form-row">
+                <label for="email">
+                    Email address
+                </label>
+                <input id="email" type="email" required>
+            </div>
+            <button id="submit-button">Donate Now</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2023 Donate Now. All rights reserved.</p>
+</footer>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="app.js"></script>
+</body>
+</html>
