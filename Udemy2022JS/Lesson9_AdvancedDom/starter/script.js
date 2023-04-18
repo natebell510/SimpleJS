@@ -292,5 +292,46 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 });
 headerObserver.observe(header);
 
-//3:42
+//reveal sections
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = function (entries, observer){
+    const [entry] = entries;
+
+    if(!entry.isIntersecting)return;
+    entry.target.classList.remove('section--hidden');
+    //to stop observing and improve performance
+    observer.unobserve(entry.target);
+};
+const sectionObserver = new IntersectionObserver(revealSection, {
+    root : null,
+    threshold : 0.15,
+});
+allSections.forEach(function (section) {
+    sectionObserver.observe(section);
+    section.classList.add('section--hidden');
+});
+
+//image have biggest impact on page loading
+//lazy loading images
+
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+const loadImg = function (entries, observer){
+    const [entry] = entries;
+    if(!entry.isIntersecting) return;
+
+    //replace src with data-src
+    entry.target.src = entry.target.dataset.src;
+    entry.target.addEventListener('load', function () {
+
+    });
+
+};
+const imgObserver = new IntersectionObserver(loadImg, {
+    root : null,
+    threshold : 0
+ });
+
+imgTargets.forEach( img => imgObserver.observe(img));
 
