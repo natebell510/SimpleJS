@@ -231,12 +231,12 @@ tabsContainer.addEventListener('click', function (e) {
 //Menu fade animation
 const nav = document.querySelector('.nav');
 const handleHover = function (e) {
-    if(e.target.classList.contains('nav__link')){
+    if (e.target.classList.contains('nav__link')) {
         const link = e.target;
         const siblings = link.closest('.nav').querySelectorAll('.nav__link');
         const logo = link.closest('.nav').querySelector('img');
-        siblings.forEach( el => {
-            if(el !== link) el.style.opacity = this;
+        siblings.forEach(el => {
+            if (el !== link) el.style.opacity = this;
         })
         logo.style.opacity = this;
 
@@ -248,7 +248,7 @@ const handleHover = function (e) {
 //mouse over event - opposite mouse out
 nav.addEventListener('mouseover', handleHover.bind(0.5));
 
-nav.addEventListener('mouseout',handleHover.bind(1));
+nav.addEventListener('mouseout', handleHover.bind(1));
 
 
 //Sticky navigation
@@ -277,35 +277,35 @@ observer.observe(section1);
  */
 
 //const header = document.querySelector('.header');
-const navHeight =  nav.getBoundingClientRect().height;
+const navHeight = nav.getBoundingClientRect().height;
 
 const stickyNav = function (entries) {
-  const [entry] = entries;
-  if(!entry.isIntersecting)nav.classList.add('sticky');
-  else nav.classList.remove('sticky');
+    const [entry] = entries;
+    if (!entry.isIntersecting) nav.classList.add('sticky');
+    else nav.classList.remove('sticky');
 };
 
 const headerObserver = new IntersectionObserver(stickyNav, {
-    root:null,
-    threshold : 0,
-    rootMargin : `-${navHeight}px`
+    root: null,
+    threshold: 0,
+    rootMargin: `-${navHeight}px`
 });
 headerObserver.observe(header);
 
 //reveal sections
 const allSections = document.querySelectorAll('.section');
 
-const revealSection = function (entries, observer){
+const revealSection = function (entries, observer) {
     const [entry] = entries;
 
-    if(!entry.isIntersecting)return;
+    if (!entry.isIntersecting) return;
     entry.target.classList.remove('section--hidden');
     //to stop observing and improve performance
     observer.unobserve(entry.target);
 };
 const sectionObserver = new IntersectionObserver(revealSection, {
-    root : null,
-    threshold : 0.15,
+    root: null,
+    threshold: 0.15,
 });
 allSections.forEach(function (section) {
     sectionObserver.observe(section);
@@ -317,21 +317,60 @@ allSections.forEach(function (section) {
 
 const imgTargets = document.querySelectorAll('img[data-src]');
 
-const loadImg = function (entries, observer){
+const loadImg = function (entries, observer) {
     const [entry] = entries;
-    if(!entry.isIntersecting) return;
+    if (!entry.isIntersecting) return;
 
     //replace src with data-src
     entry.target.src = entry.target.dataset.src;
     entry.target.addEventListener('load', function () {
-
+        entry.target.classList.remove('lazy-img')
     });
+    observer.unobserve(entry.target);
 
 };
 const imgObserver = new IntersectionObserver(loadImg, {
-    root : null,
-    threshold : 0
- });
+    root: null,
+    threshold: 0,
+    rootMargin: '+200px'
+});
 
-imgTargets.forEach( img => imgObserver.observe(img));
+imgTargets.forEach(img => imgObserver.observe(img));
 
+//Slider
+const slides = document.querySelectorAll('.slide');
+
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+let curSlide = 0;
+const maxSlide = slides.length;
+
+
+const slider = document.querySelector('.slider');
+slider.style.transform = 'scale(0.4) translateX(-800px)';
+slider.style.overflow = 'visible';
+
+//putting slides side by side
+//slides.forEach( (s, i) => s.style.transform = `translateX(${100 * i}})`)
+//0%, 100%, 200% 300%
+
+const goToSlide = function (slide) {
+    slides.forEach(
+        (s, i) => s.style.transform = `translateX(${100 * (i - slide)}%)`);
+};
+
+
+goToSlide(0);
+
+//next slide
+
+const nextSlide = function () {
+    if(curSlide === maxSlide - 1){
+        curSlide = 0;
+    }else {
+        curSlide++;
+    }
+    goToSlide(curSlide);
+}
+
+btnRight.addEventListener('click', nextSlide);
