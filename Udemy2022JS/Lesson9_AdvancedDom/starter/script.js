@@ -445,3 +445,36 @@ slider();
 
 // options can be added to slider
 
+
+
+//DOM lifecycle
+/*
+document.addEventListener('DOMContentLoaded', function (e){
+   console.log('HTML parsed and DOM tree built!', e)
+});
+
+window.addEventListener('load', function (e){
+   console.log('Page fully loaded', e)
+});
+ */
+
+/*
+// closes browser and add pop up for browser
+window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    console.log(e);
+    e.returnValue = "NAZAR";
+});
+ */
+
+/*
+script tag is always in the end of the body due to page loading process
+regular <script src="script.js>
+
+ASYNC <script async src="script.js">
+better in head, waits for HTML loaded and then JS will be executed, no guarantee that script will be executed in order
+
+DEFER <script defer src="script.js">
+best solution to use defer in head, and when 3d party library is used
+
+ */
