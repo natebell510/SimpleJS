@@ -88,10 +88,133 @@ console.log(arr.unique());//[ 3, 6, 4, 5, 8 ]
 
 //do not use technique above - because someone else can update same method with different functions
 
-const h1 = document.querySelector('h1');
+//const h1 = document.querySelector('h1');
 
 
 // https://www.youtube.com/watch?v=qRy7lij5qzc&list=PLd7dW_Jxkr_Yw6apt7tpzDC6X2mP5UhtQ&index=27  1:34:22
+
+
+//class expression
+//const PersonCE = class{}
+
+//class declaration
+class PersonCl{
+  constructor(fullName, birthYear) {
+        this.fullName = fullName;
+        this.birthYear = birthYear;
+  }
+  //methods will be added to prototype property
+  calcAge(){
+      console.log(2037 - this.birthYear);
+  }
+
+  get age(){
+      console.log(2037 - this.birthYear);
+  }
+
+  //set property that already exist use _.
+  set fullName(name){
+      if(name.includes(' ')){
+          this._fullName = name;
+
+      }else console.log(`${name} is not full name formatted.`)
+  }
+
+  get fullName(){
+      return this._fullName;
+  }
+
+    //static method - is not available on instance but can be used as helper method about clas
+    static hey(){
+        console.log('Hey there!');
+        console.log(this);
+    }
+
+}
+
+const jessica = new PersonCl('jessica davis',1985);
+console.log('constructor');
+jessica.calcAge();//52
+
+console.log(jessica.__proto__ === PersonCl.prototype);//true
+
+PersonCl.prototype.greet= function (){
+    console.log(`Hello ${this.fullName}`);
+}
+jessica.greet();
+console.log('------------------------');
+console.log(jessica);
+console.log('------------------------');
+
+const walter = new PersonCl('walter',1984);
+console.log(walter);
+
+
+
+//1. classes are not hoisted - can NOT be used before they are declared
+//2. classes are first class citizens - pass and return from functions
+//3. body of the class executed in strict mode
+
+const account = {
+    owner : 'jonas',
+    movements : [100,23,669,88],
+
+    get latest(){
+        return this.movements.slice(-1).pop();
+    },
+
+    set latest(mov){
+        this.movements.push(mov);
+    },
+
+};
+
+console.log(account.latest);//88 getter is called as property
+account.latest = 80808;
+console.log(account.latest);
+
+
+//static method
+//Array.from(); is not a function
+
+Person.hey1 = function(){
+    console.log('Hey there!');
+    console.log(this);
+}
+Person.hey1();
+
+PersonCl.hey();
+
+console.log('-*--*-*-*-*--*-*-**-*--*-*-*-*-*-*-*-*-*-*-');
+
+//object literals
+const PersonProto = {
+    calcAgeProto(){
+        console.log(2037 - this.birthYear);
+    },
+
+    init(firstName, birthYear){
+        this.firstName = firstName;
+        this.birthYear = birthYear;
+    },
+};
+
+const steven = Object.create(PersonProto);
+
+
+
+steven.name = 'Steven';
+steven.birthYear = 1999;
+console.log(steven);
+steven.calcAgeProto();//38
+
+console.log(steven.__proto__); //{ calcAgeProto: [Function: calcAgeProto] }
+
+const sarah = Object.create(PersonProto);
+sarah.init('sarah', 1979);
+sarah.calcAgeProto(); //58
+
+//real classes do not exist in JavaScript
 
 
 
