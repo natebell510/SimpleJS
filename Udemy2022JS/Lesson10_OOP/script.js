@@ -105,7 +105,7 @@ class PersonCl{
   }
   //methods will be added to prototype property
   calcAge(){
-      console.log(2037 - this.birthYear);
+      console.log(`${this.fullName}'s age is ${2037 - this.birthYear}`);
   }
 
   get age(){
@@ -190,7 +190,7 @@ console.log('-*--*-*-*-*--*-*-**-*--*-*-*-*-*-*-*-*-*-*-');
 //object literals
 const PersonProto = {
     calcAgeProto(){
-        console.log(2037 - this.birthYear);
+        console.log(`${this.firstName} is ${2037 - this.birthYear} years old.`);
     },
 
     init(firstName, birthYear){
@@ -216,8 +216,72 @@ sarah.calcAgeProto(); //58
 
 //real classes do not exist in JavaScript
 
+//2:26
+//Inheritance
+const Student = function(firstName, birthYear, course){
+    //call function
+    Person.call(this, firstName,birthYear);
+    this.course = course;
+
+
+};
+//linking prototypes
+Student.prototype = Object.create(Person.prototype);
+
+Student.prototype.introduce = function (){
+    console.log(`My name is ${this.firstName} and I study ${this.course}`);
+}
+
+const mike = new Student('mike',1996,'CompScience');
+console.log(mike);
+mike.introduce();
+mike.calcAge();//41
+
+console.log(mike.__proto__);//contains introduce method
+console.log(mike  instanceof  Student);
+console.log(mike  instanceof  Person);
+console.log(mike  instanceof  Object);
 
 
 
+class StudentCl extends PersonCl{
+    constructor(fullName, birthYear, course) {
+        //super need to happen first, because super is called to this of parent class
+        super(fullName, birthYear);
+        this.course = course;
+    }
+
+    introduce(){
+        console.log(`My name is ${this.fullName} and I study ${this.course}`);
+    }
+
+    calcAge() {
+        console.log(`I am ${2022-this.birthYear} years old, I feel older, like ${2022 - this.birthYear + 10} years old`);
+    }
+}
+
+const martha = new StudentCl('Martha Jones',2010, 'CS');
+martha.introduce();
+martha.calcAge();//27
 
 
+//with create object, below is Prototype chain
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (firstName, birthYear, course) {
+    PersonProto.init.call(this, firstName, birthYear);
+    this.course = course;
+
+
+}
+
+StudentProto.introduce = function () {
+    console.log(`My name is ${this.firstName} and I study ${this.course}`)
+};
+
+const jay = Object.create(StudentProto);
+jay.init('jay max', 2001,'Biology');
+jay.introduce();
+
+
+//3;15

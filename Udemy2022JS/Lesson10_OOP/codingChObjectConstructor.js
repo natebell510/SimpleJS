@@ -1,8 +1,8 @@
 'use strict';
 
-const Car = function (make, speed){
-  this.make = make;
-  this.speed = speed;
+const Car = function (make, speed) {
+    this.make = make;
+    this.speed = speed;
 };
 
 Car.prototype.accelerate = function () {
@@ -14,8 +14,8 @@ Car.prototype.brake = function () {
     console.log(`New speed for ${this.make} is ${this.speed} km/h`);
 }
 
-const bmw = new Car('BWM',120);
-const mercedes = new Car('mercedes'.toUpperCase(),95);
+const bmw = new Car('BWM', 120);
+const mercedes = new Car('mercedes'.toUpperCase(), 95);
 
 bmw.accelerate();
 bmw.brake();
@@ -23,22 +23,23 @@ bmw.brake();
 mercedes.accelerate();
 mercedes.brake();
 
-[1,2,3,4,5].forEach(_ => mercedes.accelerate());
+[1, 2, 3, 4, 5].forEach(_ => mercedes.accelerate());
 
 
 //with classes
 console.log('******************************************');
-class CarCl{
+
+class CarCl {
     constructor(make, speed) {
         this.make = make;
         this.speed = speed;
     }
 
-    get speedUS(){
+    get speedUS() {
         return this.speed / 1.6;
     }
 
-    set speedUS(speed){
+    set speedUS(speed) {
         this.speed = speed * 1.6;
     }
 
@@ -57,11 +58,51 @@ class CarCl{
 const ford = new CarCl('FORD', 120);
 console.log(ford.speedUS);//75
 
-[1,2,3].forEach(_ => ford.accelerate());
+[1, 2, 3].forEach(_ => ford.accelerate());
 
 
 ford.speedUS = 50;
 console.log(ford);
+
+const EV = function (make, speed, charge) {
+    Car.call(this, make, speed);
+    this.charge = charge;
+
+}
+//linking prototypes
+EV.prototype = Object.create(Car.prototype);
+
+EV.prototype.chargeBattery = function (chargeTo) {
+    this.charge = chargeTo;
+}
+
+EV.prototype.accelerate = function () {
+    this.speed += 20;
+    this.charge -= 1;
+    console.log(`${this.make} going at ${this.speed} km/h, with charge of ${this.charge}%.`);
+
+}
+
+const tesla = new EV('Tesla', 120, 23);
+tesla.accelerate();
+tesla.brake();
+tesla.chargeBattery(90);
+tesla.accelerate();
+
+
+console.log(tesla.__proto__);
+
+//method overloading - same name with more params
+EV.prototype.accelerate = function (methodName) {
+    this.speed += 20;
+    this.charge -= 1;
+    console.log(`${this.make} going at ${this.speed} km/h, with charge of ${this.charge}%.`);
+    console.log(`${methodName} is overloaded`);
+
+};
+
+
+
 
 
 
