@@ -19,31 +19,30 @@ ex. Array inherits map method from Array.prototype.
 
 //Constructor functions
 
-const Person = function(firstName, birthYear){
+const Person = function (firstName, birthYear) {
     this.firstName = firstName;
     this.birthYear = birthYear;
 
     //NEVER create a method in Constructor function, because each object will carry this function, performance issue
     //this.calcAge = function () {
-      //  console.log(2037 - this.birthYear);
+    //  console.log(2037 - this.birthYear);
     //}
 
 
-
 };
-const naz = new Person('Naz',1992);
+const naz = new Person('Naz', 1992);
 //1. new empty object {} is created
 //2. function is called, this = {}
 //3. {} Linked to prototype
 //4. function automatically returns {}
 
-const matilda = new Person('matilda',1995);
-const jonas = new Person('jonas',1999);
-console.log(matilda instanceof  Person);
+const matilda = new Person('matilda', 1995);
+const jonas = new Person('jonas', 1999);
+console.log(matilda instanceof Person);
 
 //Prototypes
-Person.prototype.calcAge = function (){
-    console.log(2037 -this.birthYear)
+Person.prototype.calcAge = function () {
+    console.log(2037 - this.birthYear)
 };
 
 console.log(Person.prototype);
@@ -73,7 +72,7 @@ console.log(jonas.__proto__.__proto__.__proto__); //null
 console.dir(Person.prototype.constructor); //f Person()
 
 
-const arr = [3,6,4,5,8,3,3,3,3,3,3,8];
+const arr = [3, 6, 4, 5, 8, 3, 3, 3, 3, 3, 3, 8];
 console.log(arr.__proto__);
 
 console.log(arr.__proto__ === Array.prototype); //true
@@ -81,7 +80,7 @@ console.log(Object.__proto__ === Array.prototype);//false
 
 console.log(arr.__proto__.__proto__);//[Object: null prototype] {}
 
-Array.prototype.unique = function (){
+Array.prototype.unique = function () {
     return [...new Set(this)];
 };
 console.log(arr.unique());//[ 3, 6, 4, 5, 8 ]
@@ -98,47 +97,48 @@ console.log(arr.unique());//[ 3, 6, 4, 5, 8 ]
 //const PersonCE = class{}
 
 //class declaration
-class PersonCl{
-  constructor(fullName, birthYear) {
+class PersonCl {
+    constructor(fullName, birthYear) {
         this.fullName = fullName;
         this.birthYear = birthYear;
-  }
-  //methods will be added to prototype property
-  calcAge(){
-      console.log(`${this.fullName}'s age is ${2037 - this.birthYear}`);
-  }
+    }
 
-  get age(){
-      console.log(2037 - this.birthYear);
-  }
+    //methods will be added to prototype property
+    calcAge() {
+        console.log(`${this.fullName}'s age is ${2037 - this.birthYear}`);
+    }
 
-  //set property that already exist use _.
-  set fullName(name){
-      if(name.includes(' ')){
-          this._fullName = name;
+    get age() {
+        console.log(2037 - this.birthYear);
+    }
 
-      }else console.log(`${name} is not full name formatted.`)
-  }
+    //set property that already exist use _.
+    set fullName(name) {
+        if (name.includes(' ')) {
+            this._fullName = name;
 
-  get fullName(){
-      return this._fullName;
-  }
+        } else console.log(`${name} is not full name formatted.`)
+    }
+
+    get fullName() {
+        return this._fullName;
+    }
 
     //static method - is not available on instance but can be used as helper method about clas
-    static hey(){
+    static hey() {
         console.log('Hey there!');
         console.log(this);
     }
 
 }
 
-const jessica = new PersonCl('jessica davis',1985);
+const jessica = new PersonCl('jessica davis', 1985);
 console.log('constructor');
 jessica.calcAge();//52
 
 console.log(jessica.__proto__ === PersonCl.prototype);//true
 
-PersonCl.prototype.greet= function (){
+PersonCl.prototype.greet = function () {
     console.log(`Hello ${this.fullName}`);
 }
 jessica.greet();
@@ -146,9 +146,8 @@ console.log('------------------------');
 console.log(jessica);
 console.log('------------------------');
 
-const walter = new PersonCl('walter',1984);
+const walter = new PersonCl('walter', 1984);
 console.log(walter);
-
 
 
 //1. classes are not hoisted - can NOT be used before they are declared
@@ -156,14 +155,14 @@ console.log(walter);
 //3. body of the class executed in strict mode
 
 const account = {
-    owner : 'jonas',
-    movements : [100,23,669,88],
+    owner: 'jonas',
+    movements: [100, 23, 669, 88],
 
-    get latest(){
+    get latest() {
         return this.movements.slice(-1).pop();
     },
 
-    set latest(mov){
+    set latest(mov) {
         this.movements.push(mov);
     },
 
@@ -177,7 +176,7 @@ console.log(account.latest);
 //static method
 //Array.from(); is not a function
 
-Person.hey1 = function(){
+Person.hey1 = function () {
     console.log('Hey there!');
     console.log(this);
 }
@@ -189,18 +188,17 @@ console.log('-*--*-*-*-*--*-*-**-*--*-*-*-*-*-*-*-*-*-*-');
 
 //object literals
 const PersonProto = {
-    calcAgeProto(){
+    calcAgeProto() {
         console.log(`${this.firstName} is ${2037 - this.birthYear} years old.`);
     },
 
-    init(firstName, birthYear){
+    init(firstName, birthYear) {
         this.firstName = firstName;
         this.birthYear = birthYear;
     },
 };
 
 const steven = Object.create(PersonProto);
-
 
 
 steven.name = 'Steven';
@@ -218,9 +216,9 @@ sarah.calcAgeProto(); //58
 
 //2:26
 //Inheritance
-const Student = function(firstName, birthYear, course){
+const Student = function (firstName, birthYear, course) {
     //call function
-    Person.call(this, firstName,birthYear);
+    Person.call(this, firstName, birthYear);
     this.course = course;
 
 
@@ -228,39 +226,38 @@ const Student = function(firstName, birthYear, course){
 //linking prototypes
 Student.prototype = Object.create(Person.prototype);
 
-Student.prototype.introduce = function (){
+Student.prototype.introduce = function () {
     console.log(`My name is ${this.firstName} and I study ${this.course}`);
 }
 
-const mike = new Student('mike',1996,'CompScience');
+const mike = new Student('mike', 1996, 'CompScience');
 console.log(mike);
 mike.introduce();
 mike.calcAge();//41
 
 console.log(mike.__proto__);//contains introduce method
-console.log(mike  instanceof  Student);
-console.log(mike  instanceof  Person);
-console.log(mike  instanceof  Object);
+console.log(mike instanceof Student);
+console.log(mike instanceof Person);
+console.log(mike instanceof Object);
 
 
-
-class StudentCl extends PersonCl{
+class StudentCl extends PersonCl {
     constructor(fullName, birthYear, course) {
         //super need to happen first, because super is called to this of parent class
         super(fullName, birthYear);
         this.course = course;
     }
 
-    introduce(){
+    introduce() {
         console.log(`My name is ${this.fullName} and I study ${this.course}`);
     }
 
     calcAge() {
-        console.log(`I am ${2022-this.birthYear} years old, I feel older, like ${2022 - this.birthYear + 10} years old`);
+        console.log(`I am ${2022 - this.birthYear} years old, I feel older, like ${2022 - this.birthYear + 10} years old`);
     }
 }
 
-const martha = new StudentCl('Martha Jones',2010, 'CS');
+const martha = new StudentCl('Martha Jones', 2010, 'CS');
 martha.introduce();
 martha.calcAge();//27
 
@@ -280,8 +277,101 @@ StudentProto.introduce = function () {
 };
 
 const jay = Object.create(StudentProto);
-jay.init('jay max', 2001,'Biology');
+jay.init('jay max', 2001, 'Biology');
 jay.introduce();
 
 
 //3;15
+
+//public fields
+
+//private fields
+
+//public methods
+
+//private methods
+
+class Account {
+    //public field (instances)
+    //locale = navigator.language;
+
+    //private fields (available on instances not on prototype)
+    #movements = [];
+    #pin;
+
+
+    constructor(owner, currency, pin, balance) {
+        this.owner = owner;
+        this.currency = currency;
+        //protected property
+        //this._movements = [];
+        this._pin = pin;
+        //this.locale = navigator.language;
+        this.balance = balance;
+
+        console.log(`Thanks for opening account, ${this.owner}.`)
+    }
+
+    //Public interface
+    getMovement(){
+        return this.#movements;
+    }
+
+    //public methods
+
+    deposit(value) {
+        this.#movements.push(value);
+        this.balance += value;
+        return this;
+    }
+
+    withdrawal(value) {
+        this.deposit(-value);
+        this.balance -= value;
+        return this;
+    }
+
+    checkBalance() {
+        console.log(`Your balance is ${this.balance}.`);
+    }
+
+    requestLoan(value){
+        if(this._approveLoan()){
+            this.deposit(value);
+            console.log(`Your loan was approved and ${value} was deposited to your account.\nYour new balance is ${this.balance}.`)
+
+        }else{
+            console.log(`Your loan was not approved!`)
+        }
+        return this;
+    }
+    //#approveLoan - private method declaration
+    _approveLoan(loanAmount) {
+        return true;
+    }
+
+    //static version - is available on a class NOT instance
+    static helper(){
+        console.log(`Static helper method.`)
+    }
+
+
+}
+
+const acc1 = new Account('Jonas', 'EUR', 1111, 0);
+acc1.deposit(1000);
+acc1.withdrawal(-500);
+acc1.withdrawal(-100);
+console.log(acc1.getMovement());
+
+Account.helper();
+
+//classes are just synthetic sugar in JS
+
+//Chaining method ex. reduce, map, filter
+acc1.deposit(300).deposit(500).withdrawal(35).requestLoan(1000).withdrawal(500);
+
+console.log(acc1.getMovement());
+
+//Summary
+

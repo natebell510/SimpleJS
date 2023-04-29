@@ -46,11 +46,13 @@ class CarCl {
     accelerate = function () {
         this.speed += 10;
         console.log(`New speed for ${this.make} is ${this.speed} km/h`);
+        return this;
     }
 
     brake = function () {
         this.speed -= 5;
         console.log(`New speed for ${this.make} is ${this.speed} km/h`);
+        return this;
     }
 
 }
@@ -101,10 +103,50 @@ EV.prototype.accelerate = function (methodName) {
 
 };
 
+//final task
+
+class EVcl extends CarCl{
+    #charge;
+
+    get getCharge(){
+        return this.#charge;
+    }
+
+    constructor(make , speed, charge) {
+        super(make, speed);
+        this.#charge = charge;
+    }
 
 
 
+    chargeBattery(chargeTo){
+        this.#charge = chargeTo;
+    }
 
+    accelerate(){
+        this.speed += 20;
+        this.#charge --;
+        console.log(`${this.make} is going at ${this.speed} km/h with charge of ${this.#charge}%.`)
+
+    }
+
+    brake = function () {
+        this.speed -= 5;
+        console.log(`New speed for ${this.make} is ${this.speed} km/h`);
+        return this;
+    }
+
+
+
+}
+const rivian = new EVcl('Rivian', 120, 23);
+console.log(rivian);
+console.log(rivian.getCharge);
+
+rivian.brake();
+rivian.accelerate();
+rivian.chargeBattery(100);
+console.log(rivian.getCharge);
 
 
 
