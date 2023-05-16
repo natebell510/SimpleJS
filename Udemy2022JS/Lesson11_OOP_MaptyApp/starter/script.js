@@ -25,43 +25,104 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
+let map, mapEvent;
+
+class App {
+
+    #map;
+    #mapEvent;
+
+
+    constructor() {
+        this._getPosition();
+
+    }
+
+
+    _getPosition() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this._loadMap.bind(this),function () {
+                alert('Could not get position.');
+            })
+        }
+    }
+
+    _loadMap(position) {
         const {latitude} = position.coords;
         const {longitude} = position.coords;
-       // console.log(`https://www.google.com/maps/@${latitude},${longitude}z`);
+        // console.log(`https://www.google.com/maps/@${latitude},${longitude}z`);
 
         const coords = [latitude, longitude];
-        //from leaflet
-        const map = L.map('map').setView(coords, 12);
+        //from leaflet - map is html element that has id of map
+       this.#map = L.map('map').setView(coords, 12);
 
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        }).addTo(this.#map);
 
-        L.marker(coords).addTo(map)
-            .bindPopup('I am here.<br> Do you want to save it?')
+        L.marker(coords).addTo(this.#map)
+            .bindPopup('Point on a map.<br> What?')
             .openPopup();
+
+
         //special map event
-        map.on('click', function (mapEvent){
-            const {lat, lng} = mapEvent.latlng;
-            //adds marker to the map
-            L.marker([lat,lng]).addTo(map).bindPopup(L.popup({
-                maxWidth : 250,
-                minWidth : 100,
-                autoClose : false,
-                closeOnClick: false,
-                className : 'running-popup'
-            }))
-                .setPopupContent('Selling Drugs')
-                .openPopup();
+        //handling clicks on map
+        this.#map.on('click', function (mapE) {
+            this.#mapEvent = mapE;
+            form.classList.remove('hidden');
+            //focus method leads user to typing right away
+            inputDistance.focus();
+
         });
+    }
 
-    }, function () {
-        alert('Could not get your position!')
-    });
+    _showForm(){
+    }
+
+    _toggleElevationField(){
+
+    }
+
+    _newWorkout(){
+
+    }
+
 }
-//49.2159845,29.0208366,13z
 
-//1:05
+const app = new App();
+//app._getPosition();
+
+
+
+//https://www.youtube.com/watch?v=1o3ZLH6b_lU&list=PLEcZUKhPzlA2ZcVaNJdbWqzuJPIKGbeVA&index=14&ab_channel=ViralKingz
+//8:59
+
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    //clear input fields
+    inputDistance.value = inputDuration.value = inputElevation.value = inputCadence.value = '';
+
+    //display marker
+    const {lat, lng} = mapEvent.latlng;
+    //adds marker to the map
+    L.marker([lat, lng]).addTo(map).bindPopup(L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        autoClose: false,
+        closeOnClick: false,
+        className: 'running-popup'
+    }))
+        .setPopupContent('Workout!')
+        .openPopup();
+});
+
+inputType.addEventListener('change', function (e) {
+    inputElevation.closest('.form__row--hidden').classList.toggle('form__row--hidden');
+    inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+
+});
+
+//data is the most fundamental part of the application
+//9:39
