@@ -314,11 +314,11 @@ class App {
         });
 
         // using the public interface
-           workout.click();
+          // workout.click();
     }
-    click(){
-        this.clicks++;
-    }
+    //click(){
+      //  this.clicks++;
+    //}
 
     _setLocalStorage(){
         localStorage.setItem('workouts', JSON.stringify(this.#workouts));
@@ -333,7 +333,23 @@ class App {
        });
     }
 
+    //public method to reset local storage
+    reset(){
+        localStorage.removeItem('workouts');
+        location.reload();
+    }
+
 }
+
+//edit, delete, delete all workouts
+//sort workouts by distance, duration etc
+//rebuild running and cycling object that come from local storage
+//realistic error messages
+//position a map to show all workouts [leaf let library]
+//ability to draw lines and shades
+//geocode location from coordinates, run in Faro Portugal, only after async section
+//display weather with weather API
+
 
 
 
