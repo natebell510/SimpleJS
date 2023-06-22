@@ -20,9 +20,6 @@ setTimeout(() => {
  */
 
 
-
-
-
 /*'
 client -> server
 protocol/domainName/resource
@@ -104,7 +101,7 @@ const renderCountryData = function (data, className = '') {
 
 
 const renderError = function (msg) {
-    countriesContainer.insertAdjacentText('beforeend',msg);
+    countriesContainer.insertAdjacentText('beforeend', msg);
     countriesContainer.style.opacity = 1;
 }
 
@@ -126,7 +123,7 @@ const getCountryDataAndNeighbour = function (country) {
 
         //get neighbour county
         const [neighbour] = data[0].borders;
-        if(!neighbour)return;
+        if (!neighbour) return;
 
         //AJAX call2
         const request2 = new XMLHttpRequest();
@@ -134,14 +131,13 @@ const getCountryDataAndNeighbour = function (country) {
 //CORS cross origin resource sharing
         request2.send();
 
-        request2.addEventListener('load', function (){
-           const data2 = JSON.parse(this.responseText);
-           console.log(data2);
-           renderCountryData(data2[0], neighbour);
+        request2.addEventListener('load', function () {
+            const data2 = JSON.parse(this.responseText);
+            console.log(data2);
+            renderCountryData(data2[0], neighbour);
         });
 
         //callback hell - nested callback that should be sequenced
-
 
 
     });
@@ -161,7 +157,6 @@ pending (before furure value) -> async task -> settled (fulfilled, rejected [asy
 
 
  */
-
 
 
 //const request3 = fetch( `https://restcountries.com/v3.1/alpha/usa`);
@@ -187,7 +182,7 @@ const getCountryData = function (country) {
             if (!neighbour) throw new Error('No neighbour found!');
 
             //country 2
-            return  getJSON(`https://restcountries.com/v3.1/alpha/${neighbour}`, 'Country not found!')
+            return getJSON(`https://restcountries.com/v3.1/alpha/${neighbour}`, 'Country not found!')
         })
         .then(data => renderCountryData(data[0], 'neighbour'))
         .catch(err => {
@@ -203,11 +198,10 @@ const getCountryData = function (country) {
 
 //https://www.youtube.com/watch?v=B7TTlTHNU5U&list=PLEcZUKhPzlA2ZcVaNJdbWqzuJPIKGbeVA&index=23&ab_channel=ViralKingz 3:15
 //const openUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
-const whereAmI = function (lat, lng){
+const whereAmI = function (lat, lng) {
     fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
-        .then(response =>
-        {
-            if(!response.ok){
+        .then(response => {
+            if (!response.ok) {
                 throw new Error(`Problem with geocoding! ${response.status}`);
             }
             return response.json();
@@ -219,20 +213,19 @@ const whereAmI = function (lat, lng){
             const name = data.address.country;
 
             return fetch(`https://restcountries.com/v3.1/name/${name}`)
-        }).then( response =>{
-            if(!response.ok){
-                throw new Error(`Country not found ${response.status}`);
-            }
-            return response.json();})
-        .then(data =>{
+        }).then(response => {
+        if (!response.ok) {
+            throw new Error(`Country not found ${response.status}`);
+        }
+        return response.json();
+    })
+        .then(data => {
             //renderCountryData(data[0]);
             console.log(data[0].name.official)
             getCountryData(data[0].name.official);
         })
         .catch(err => console.log(`${err.message}`));
 }
-
-
 
 
 //turn it data into country name
@@ -248,9 +241,10 @@ const getLoc = function getLocation() {
 function showPosition(position) {
     locationDiv.innerHTML = "Latitude: " + position.coords.latitude +
         "<br>Longitude: " + position.coords.longitude;
-    whereAmI(position.coords.latitude,position.coords.longitude);
+    whereAmI(position.coords.latitude, position.coords.longitude);
 
 }
+
 //TODO this original function
 /*
 btn.addEventListener('click', function () {
@@ -320,15 +314,11 @@ Promise.reject('abc').then(x => console.error(x));
  */
 
 
-
 //https://www.youtube.com/watch?v=B7TTlTHNU5U&list=PLEcZUKhPzlA2ZcVaNJdbWqzuJPIKGbeVA&index=27&ab_channel=ViralKingz  4.22
 
 
-
-
-
 const getPosition = function () {
-    return new Promise(function (resolve, reject){
+    return new Promise(function (resolve, reject) {
         /*
         navigator.geolocation.getCurrentPosition(position => {
             resolve(position), err =>{
@@ -344,13 +334,12 @@ const getPosition = function () {
 
 const whereIam2 = function () {
     getPosition().then(pos => {
-        const {latitude : lat, longitude : lng} = pos.coords;
+        const {latitude: lat, longitude: lng} = pos.coords;
         return fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
     })
 
-        .then(response =>
-        {
-            if(!response.ok){
+        .then(response => {
+            if (!response.ok) {
                 throw new Error(`Problem with geocoding! ${response.status}`);
             }
             return response.json();
@@ -362,12 +351,13 @@ const whereIam2 = function () {
             const name = data.address.country;
 
             return fetch(`https://restcountries.com/v3.1/name/${name}`)
-        }).then( response =>{
-            if(!response.ok){
-                throw new Error(`Country not found ${response.status}`);
-            }
-            return response.json();})
-        .then(data =>{
+        }).then(response => {
+        if (!response.ok) {
+            throw new Error(`Country not found ${response.status}`);
+        }
+        return response.json();
+    })
+        .then(data => {
             //renderCountryData(data[0]);
             console.log(data[0].name.official)
             getCountryData(data[0].name.official);
@@ -375,6 +365,141 @@ const whereIam2 = function () {
         .catch(err => console.log(`${err.message}`));
 
 }
-btn.addEventListener('click', whereIam2);
+//btn.addEventListener('click', whereIam2);
+
+
+/*
+//coding challenge
+const imageContainer = document.querySelector('.images');
+
+const createImage = function (imagePath) {
+    return new Promise(function (resolve, reject) {
+        const img = document.createElement('img');
+        img.src = imagePath;
+
+        img.addEventListener('load', function () {
+            imageContainer.append(img);
+            resolve(img);
+        });
+
+        img.addEventListener('error', function () {
+            reject(new Error('Image not found'));
+        });
+    });
+};
+const path1 = 'img/img-1.jpg';
+
+const wait = function (seconds) {
+    return new Promise(function(resolve){
+        setTimeout(resolve,seconds * 1000);
+    })
+};
+
+
+let currentImg;
+const errorContainer = document.querySelector('.error');
+createImage(path1).then(img => {
+    currentImg = img;
+    console.log('Image 1 loaded')
+    return wait(2)
+}).then(() => {
+    currentImg.style.display = 'none';
+    return createImage('img/img-2.jpg')
+})
+    .then(img => {
+        currentImg = img;
+        console.log('Image 2 loaded');
+        return wait(2);
+    })
+    .then(() => {
+    currentImg.style.display = 'none';
+    return createImage('img/img-3.jpg')
+}).then(img => {
+    currentImg = img;
+    console.log('Image 3 loaded');
+    return wait(2);
+})
+    .catch(err => {
+    errorContainer.insertAdjacentText('beforeend', err);
+});
+ */
+
+
+//async await
+const getPosition2 = function () {
+    return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+    })
+};
+const whereAmI3 = async function (country) {
+    try{
+        const pos = await getPosition2();
+        const {latitude: lat, longitude: lng} = pos.coords;
+
+        //reverse geocoding
+        const resGeo = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
+        if(!resGeo) throw new Error('Problem with reverse geocoding.')
+        const dataGeo = await resGeo.json();
+
+        //country data
+        const res = await fetch(`https://restcountries.com/v3.1/name/${dataGeo.address.country}`);
+        if(!res) throw  new Error('problem with rescountries call.')
+        const data = await res.json();
+        renderCountryData(data[0]);
+
+
+
+    }catch (e){
+        console.error(e);
+        renderError(e.message);
+    }
+
+};
+//whereAmI3();
+
+/*
+(async function(){
+    try {
+        const city = await whereAmI3();
+        console.log(city);
+    }catch (err){
+        console.error(err.message);
+    }
+    console.log('finish')
+})();
+ */
+
+
+//iffy
+/*
+(async function(){}){};
+ */
+
+
+//return 3 Promises Promise.all()
+//if one Promise rejects, all Promises will be rejected
+const get3countries = async function(c1, c2, c3){
+    try {
+       // const [data1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`);
+        //const [data2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`);
+       // const [data3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
+
+        const data = await Promise.all([
+            getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+            getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+            getJSON(`https://restcountries.com/v3.1/name/${c3}`)
+        ]);
+
+        console.log(data.map(x => x[0].capital));
+
+    }catch (err){
+        console.error(err.message)
+    }
+}
+
+get3countries('usa','canada','portugal');
+
+//https://www.youtube.com/watch?v=B7TTlTHNU5U&list=PLEcZUKhPzlA2ZcVaNJdbWqzuJPIKGbeVA&index=27&ab_channel=ViralKingz  5.42
+
 
 
