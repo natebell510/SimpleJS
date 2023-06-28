@@ -1,5 +1,10 @@
 //exporting module
 console.log('exporting module');
+
+console.log('Start fetching users');
+await fetch('https://jsonplaceholder.typicode.com/users');
+console.log('Finish fetching users')
+
 //all variable are private
 const shippingCost = 10;
 export const cart = [];

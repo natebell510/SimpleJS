@@ -1,0 +1,26 @@
+clean and modern java script practices
+- readable
+- understandable in 1 year
+- descriptive variable names, functions named by what they do
+
+- function does one thing
+- use default params
+- return same data type as received
+- use arrow functions when they make code more readable
+
+- do not use var
+- use strong type checks === !==
+
+
+OOP
+- use classes
+- encapsulate data and do not mutate it from outside the class
+- implement method chaining
+- do use arrow functions as methods
+
+- avoid callback based async APIs
+- avoid loops, array and collection methods
+
+- consume promises with async/await
+- run promises in parallel Promise.all
+- handle errors and promise rejections
